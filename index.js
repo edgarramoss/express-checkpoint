@@ -25,6 +25,17 @@ app.get('/movies/:movieId', (req, res) => {
 		.then(data => res.status(200).json(data));
 });
 
+app.post('/newrelease/:movieTitle/:movieGenre/:movieDate', (req, res) => {
+	console.log('Post request recieved.');
+	database.select('*').from('movies').insert({title: req.params.movieTitle, genre: req.params.movieGenre, release_date: req.params.movieDate})
+		.then((movies) => {
+			res.status(201).json({
+				status: 'success',
+				created: req.body
+			});
+		});
+});
+
 app.delete('/movies/:movieId', (req, res) => {
 	console.log('Delete request received.');
 	database.from('movies').where({title: req.params.movieId}).del()
